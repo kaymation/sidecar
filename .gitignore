@@ -1,0 +1,5 @@
+*.pyc
+elasticsearch-6.2.4/**
+**/node_modules/**
+**/dynamic/static/**
+VIRTUAL/**
