@@ -37,7 +37,7 @@ class Categories extends Component {
 
     updateCategories(currentCategory) {
         let highlightedCategories = this.state.categories.map((category) => {
-            if(category.key == currentCategory) {
+            if(category.key === currentCategory) {
                 return React.cloneElement(category, {
                     style: {borderColor: 'red'}
                 });
@@ -55,7 +55,7 @@ class Categories extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if( this.props.currentCategory !== nextProps.currentCategory) {
+        if(this.props.currentCategory !== nextProps.currentCategory) {
             this.updateCategories(nextProps.currentCategory);
         }
     }
@@ -63,7 +63,7 @@ class Categories extends Component {
     render() {
         return (
             <ul>
-            {this.state.categories}
+                {this.state.categories}
             </ul>
         );
     }
