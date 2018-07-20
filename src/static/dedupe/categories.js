@@ -20,7 +20,7 @@ class Categories extends Component {
         }
     }
 
-    updateCategories() {
+    fetchCategories() {
         fetch('/api/categories')
         .then(results => {
             return results.json();
@@ -35,9 +35,9 @@ class Categories extends Component {
         });
     }
 
-    renderCategories() {
+    updateCategories(currentCategory) {
         let highlightedCategories = this.state.categories.map((category) => {
-            if(category.key == this.props.currentCategory) {
+            if(category.key == currentCategory) {
                 return React.cloneElement(category, {
                     style: {borderColor: 'red'}
                 });
@@ -51,11 +51,13 @@ class Categories extends Component {
     }
 
     componentDidMount() {
-        this.updateCategories();
+        this.fetchCategories();
     }
 
-    componentWillReceiveProps() {
-        this.renderCategories();
+    componentWillReceiveProps(nextProps) {
+        if( this.props.currentCategory !== nextProps.currentCategory) {
+            this.updateCategories(nextProps.currentCategory);
+        }
     }
 
     render() {
