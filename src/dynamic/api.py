@@ -26,8 +26,7 @@ def get_categories():
 @api.route('/questions', methods=('GET',))
 def get_questions():
     category = request.values.get('category')
-    if category:
+    if category and category != 'null':
         return jsonify(data=QUESTIONS.get(category, []))
     else:
         return jsonify(data=[question for question_list in QUESTIONS.itervalues() for question in question_list])
-    return jsonify(data=QUESTIONS)
