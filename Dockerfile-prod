@@ -1,0 +1,17 @@
+FROM ubuntu:latest
+
+EXPOSE 8000
+
+MAINTAINER Kevin Quigley "kevinmquigley.41@gmail.com"
+RUN apt-get update -y
+RUN apt-get install -y python-pip python-dev build-essential nodejs npm
+COPY ./sidecar /app/sidecar
+WORKDIR /app
+RUN pip install -r sidecar/requirements.txt
+
+RUN npm run build --prefix sidecar/src/static
+
+WORKDIR /app/sidecar/src
+
+CMD ["gunicorn"  , "-b", "0.0.0.0:8000", "dynamic:create_app()"]
+

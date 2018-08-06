@@ -1,3 +1,5 @@
 elasticsearch-dsl>=5.0.0,<6.0.0
 Flask==1.0.2
 lxml
+gunicorn==19.8.*
+

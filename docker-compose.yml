@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  api: # Flask App
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile-prod
+    ports:
+      - "8000:8000" # Expose API port
+    environment: # Set ENV vars
+     - NODE_ENV=local
+     - ES_HOST=elasticsearch
+     - PORT=5000
+    volumes: # Attach local Flask App directory
+      - ./sidecar:/app/sidecar
+    stdin_open: true
+    tty: true
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+    container_name: elasticsearch
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - esnet
+
+volumes: # Define seperate volume for Elasticsearch data
+  esdata:
+
+networks:
+  esnet:
