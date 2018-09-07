@@ -1,8 +1,11 @@
 import json
 import urllib
+import os
 from elasticsearch import Elasticsearch, TransportError
 
-es = Elasticsearch()
+es = Elasticsearch(
+    # hosts=[{ 'host': os.environ.get('ELASTIC_HOST', 'localhost'), 'port': 9200 }]
+)
 
 
 CREATE_INDEX_QUERY = {
@@ -79,7 +82,7 @@ def question_list_query(debate, category):
                         ]
                     }
                 },
-                "inner_hits": {}
+                "inner_hits": { 'size': 100 }
             }
         }
 
